@@ -1,11 +1,11 @@
 import requests
 import base64
 import json
-import pandas_market_calendars as mcal
 import datetime as dt
 from datetime import date, datetime
+import pandas_market_calendars as mcal
 
-keys: json = json.load(open("/mnt/z/API Keys/Finra/FINRA_API_KEY.json"))
+keys: str = json.load(open("/mnt/z/API Keys/Finra/FINRA_API_KEY.json"))
 keys_concat: str = keys["client"] + ":" + keys["secret"]
 
 auth_bytes: bytes = base64.urlsafe_b64encode(keys_concat.encode("utf-8"))
@@ -36,8 +36,11 @@ params: dict = {
 }
 
 
-def post() -> json:
-    r: json = requests.post(
+def post() -> str:
+    """
+    Post request to FINRA API
+    """
+    r: str = requests.post(
         "https://api.finra.org/data/group/otcMarket/name/regShoDaily",
         headers=headers,
         json=params,
